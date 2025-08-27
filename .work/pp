@@ -1,0 +1,30 @@
+name: Keep Alive
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # 每天 UTC+3 (北京时间11点) 运行一次
+  workflow_dispatch:
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Update log file
+        run: |
+          echo "Keep alive at $(date)" >> daily_log.txt
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add daily_log.txt
+          git commit -m "keepalive: $(date)" || echo "No changes to commit"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
