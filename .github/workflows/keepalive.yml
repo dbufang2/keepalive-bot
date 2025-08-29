@@ -2,7 +2,7 @@ name: Keep Alive
 
 on:
   schedule:
-    - cron: "0 3 * * *"   # 每天 UTC+3 (北京时间11点) 运行一次
+    #- cron: "0 3 * * *"   # 每天 UTC+3 (北京时间11点) 运行一次
   workflow_dispatch:
 
 jobs:
